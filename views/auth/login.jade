@@ -1,0 +1,33 @@
+extends ../layouts/auth
+
+block content
+    div.main.container
+        div.row
+            div.auth.col-md-5.col-sm-8.m-auto.text-center.p-2.pt-4.pb-4
+                img.logo(src='/img/logo.jpg')
+                if (messages && messages.length > 0)
+                    h5.alert.alert-danger= messages
+                if (errs)
+                    h6.alert.alert-danger
+                        each err in errs
+                            p - #{err.msg} <br>
+                div.row.mt-4.mb-4.text-center
+                    a.google-auth.btn.m-auto.col-md-8.bg-light(href="/google")
+                        img(src="/img/icons/google.png")
+                        ='Google Login'
+                div.row
+                    form.col-md-12.m-auto(method='post', action='/login')
+                        input(type="hidden", name="_csrf", value=csrf)
+                        div.input-field.col-md-12.p-0
+                            label(for="email", style="font-size:20px;font-weight:bolder")
+                                span.icofont-email.icofont
+                                =' Email'
+                            input(type='text', required, class="validate", name="email", placeholder="Enter Your Email", id="email")
+                        div.input-field.col-md-12.p-0
+                            label(for="pass", style="font-size:20px;font-weight:bolder")
+                                span.icofont.icofont-ui-lock
+                                =' Password'
+                            input(type='password', required, class="validate", name="password", placeholder="Enter Your Password", id="pass")
+                        button.btn.white-text.light-blue.darken-3(type='submit')
+                            span.icofont.icofont-sign-in.mr-2
+                            ='Login'

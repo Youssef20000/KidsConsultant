@@ -1,0 +1,162 @@
+#!/usr/bin/env node
+var debug = require('debug')('consuktant:server');
+var util = require("util");
+var http = require('http');
+var mongoose = require("mongoose");
+var fs = require("fs");
+var createError = require('http-errors');
+require('dotenv').config({ path: __dirname+'/../.env' });
+
+class Server {
+    constructor() {
+        this.app = require("../app");
+        this.port = normalizePort(process.env.PORT || '3000');
+    };
+
+    run() {
+        this.app.set('port', this.port);
+        this.loadMiddleware(this.app);
+        this.runMongo();
+        this.loadServices();
+        this.loadRoutes();
+        this.handleErrors();
+        this.server = http.createServer(this.app);
+    };
+
+    loadServices() {
+        fs.readdirSync(__dirname + '/services').forEach(service => {
+            require(`${__dirname}/services/${service}`);
+        });
+        util.log("Services Loaded")
+    }
+
+    runMongo() {
+        mongoose.connect('mongodb://localhost/KidsCare', {useNewUrlParser: true});
+        mongoose.connection.once("open", function () {
+            util.log("MongoDb Is Working");
+        });
+        mongoose.Promise = global.Promise;
+    }
+
+    loadRoutes() {
+        // Load Auth Routes
+        this.app.use('/',require(__dirname+'/../routes/Auth/index'));
+        // Load Routes In Group
+        fs.readdirSync(__dirname + "/../routes").forEach(route => {
+            const stat = fs.lstatSync(__dirname + "/../routes/" + route);
+            if (stat.isFile())
+                if (route === "index.js") {
+                    this.app.use("/", require(`../routes/${route}`));
+                } else {
+                    route = route.replace('.js', '');
+                    this.app.use(`/${route}/`, require(`../routes/${route}`));
+                }
+        });
+    }
+
+    handleErrors() {
+        // catch 404 and forward to error handler
+        this.app.use(function (req, res, next) {
+            next(createError(404));
+        });
+
+// error handler
+        this.app.use(function (err, req, res, next) {
+            // set locals, only providing error in development
+            res.locals.message = err.message;
+            res.locals.error = req.app.get('env') === 'development' ? err : {};
+            // render the error page
+            res.status(err.status || 500);
+            res.render('error');
+        });
+
+    }
+
+    loadMiddleware(app) {
+        require("./Middleware").load(app);
+    }
+}
+
+var app = new Server();
+app.run();
+
+
+global.io = require("socket.io")(app.server);
+io.on("connection", (socket) => {
+    util.log("User Connected");
+    fs.readdir(__dirname + '/../app/listeners', (err, listeners) => {
+        listeners.forEach(listener => {
+            require(`../app/listeners/${listener}`)(socket);
+        });
+    });
+});
+
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+app.server.listen(app.port);
+app.server.on('error', onError);
+app.server.on('listening', onListening);
+let server = app.server;
+let port = app.port;
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+    var port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
+
+    if (port >= 0) {
+        // port number
+        return port;
+    }
+
+    return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+
+    var bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port;
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    debug('Listening on ' + bind);
+}

@@ -1,0 +1,30 @@
+@import "init";
+body{
+  background: #ebebec;
+}
+
+.auth{
+  position: relative;
+  top: 100px;
+  background: white;
+  .google-auth{
+    color: #000;
+    font-weight: bolder;
+    img{
+      width: 25px;
+      margin-right: 5px;
+    }
+  }
+  .logo{
+    height: 150px;
+  }
+  label{
+    color: rgba(0,0,0,0.80);
+  }
+}
+.regiser{
+  top:20px !important;
+  label{
+    font-weight: initial !important;
+  }
+}

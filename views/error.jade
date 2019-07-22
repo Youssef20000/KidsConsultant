@@ -1,0 +1,9 @@
+extends layouts/app
+
+block content
+  div.row.p-0.m-0
+    div.col-md-6.p-0.m-0
+      div.valign-wrapper
+        h3.left-align= error.message
+    div.col-md-6.p-0.m-0
+      img.img-fluid(src="/img/svg/" + error.status + '.svg')

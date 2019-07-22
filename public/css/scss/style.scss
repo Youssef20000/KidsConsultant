@@ -1,0 +1,50 @@
+@import "init";
+body{
+  background:#fafafa;
+}
+#nav-mobile {
+  margin-right: 25px;
+  a {
+    display: initial !important;
+    font-size: 18px;
+    padding: 0;
+    &:hover {
+      text-decoration: none !important;
+      background-color: white !important;
+      color: $main-color !important;
+      border-bottom: 2px solid $main-color;
+    }
+  }
+}
+#auth-nav {
+  a {
+    display: initial !important;
+    background-color: $main-color;
+    color: white !important;
+    padding: 10px 20px;
+  }
+  .odd{
+    padding: 9px 20px;
+    background-color: white;
+    color: $main-color !important;
+    border: 1px solid $main-color;
+  }
+  .none{
+    font-size: 18px;
+    border: none;
+    background: #fff;
+    color: #000 !important;
+  }
+}
+#dropdown1{
+  position: relative;
+  width: 159px !important;
+  left: 26px !important;
+  a {
+    display: block !important;
+    background: none;
+    color: #000 !important;
+    font-size: 16px;
+    line-height: 22px;
+    padding: 14px 16px;  }
+}

@@ -1,0 +1,35 @@
+extends ../layouts/auth
+
+block content
+    div.main.container
+        div.row
+            div.auth.col-md-5.col-sm-8.m-auto.text-center.p-2.pt-4.pb-4.regiser
+                img.logo(src='/img/logo.jpg')
+                if (messages && messages.length > 0)
+                    h5.alert.alert-danger= messages
+                if (errs)
+                    h6.alert.alert-danger
+                        each err in errs
+                            p - #{err.msg} <br>
+                div.row.mt-4.mb-4.text-center
+                    a.google-auth.btn.m-auto.col-md-8.bg-light(href="/google")
+                        img(src="/img/icons/google.png")
+                        ='Sign Up With Google'
+                div.row
+                    form.col-md-12.m-auto(method='post', action='/signup')
+                        input(type="hidden", name="_csrf", value=csrf)
+                        div.input-field.col-md-12.p-0
+                            input(type='text', required, class="validate", name="name", placeholder="Enter Your FullName", id="name")
+                            label(for="name", class=" ", style="font-size:18px;font-weight:bolder") FullName
+                        div.input-field.col-md-12.p-0
+                            input(type='text', required, class="validate", name="email", placeholder="Enter Your Email", id="email")
+                            label(for="email", class=" ", style="font-size:18px;font-weight:bolder") Email
+                        div.input-field.col-md-12.p-0
+                            input(type='tel', class="validate", name="phone", placeholder="Enter Your Phone", id="phone")
+                            label(for="phone", style="font-size:18px") Phone Number
+                                span.ml-2(style="font-size:16px")  ( Optional )
+                        div.input-field.col-md-12.p-0.password-input
+                            input(type='password', required, class="validate", name="password", placeholder="Enter Your Password", id="pass")
+                            span.icofont.icofont-eye
+                            label(for="pass", class=" ", style="font-size:18px;font-weight:bolder") Password
+                        button.btn.white-text.light-blue.darken-3(type='submit') Login
