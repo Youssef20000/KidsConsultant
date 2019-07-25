@@ -3,3 +3,26 @@ extends ../layouts/app
 block content
     div.main.container
         div.pl-4.pr-4.mt-4.white
+            div.row
+                div.col-md-12
+                    h4
+                        i.mr-2.blue-grey-text.icofont.icofont-save
+                        ="Your Payments History"
+                     div.table-responsive
+                        table.table
+                            thead.thead-dark
+                                tr
+                                    th(scope="col") #
+                                    th.text-center(scope="col") Invoice Number
+                                    th.text-center(scope="col") Total Amount
+                                    th.text-center(scope="col") Date
+                                    th.text-center(scope="col") Payment Method
+                            tbody
+                                for pay in payments
+                                    tr
+                                        th(scope="row") 1
+                                        th.text-center(scope="row")
+                                           a(href="/profile/payment/#{pay.invoiceNum}")=pay.invoiceNum
+                                        th.text-center.green-text(scope="row")=pay.amount+"$"
+                                        th.text-center.green-text(scope="row")=pay.at.toDateString()
+                                        th.text-center.blue-grey-text(scope="row", style="font-size:18px")=pay.paidBy

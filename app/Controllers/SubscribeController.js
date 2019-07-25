@@ -101,9 +101,11 @@ class SubscribeController {
                     return res.render("success",{invoice:data})
                 })
               } else {
-                let uID = crypto.randomBytes(2).toString('hex');
-                let current_year = new Date().getFullYear();
-                uID = uID +"/"+ current_year;
+                let uID = Math.floor(Math.random() * Math.floor(9999999));
+                Payments.findOne({"invoiceNum":uID}).then(data=>{
+                    if (!data)
+                        uID = Math.floor(Math.random() * Math.floor(9999999));
+                });
                 new Subscription({
                     user:req.user._id,
                     invoiceNum: uID,

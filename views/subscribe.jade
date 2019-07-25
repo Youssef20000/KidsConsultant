@@ -4,21 +4,21 @@ block content
     div.main.container
         div.pl-4.pr-4.mt-4.white
             div#imageDIV.row.mx-4
-                div.col-md-7
-                    h4.title
-                      span.icofont.icofont-pay.green-text
-                      = " Subscription Receipt"
-                    hr
-                    div.content.ml-4.mt-4.pl-4(style="font-size:22px")
-                        p Name:  #{auth.name}
-                        p Email:
-                            i.ml-2.blue-text #{auth.email}
-                        hr.m-2
-                        p Invoice Number:
-                        p Subscription Plane: Monthly
-                        p Total Price : #{process.env.Sub_price}$
-                        div.row.mt-4
-                            a(href="/subscribe/pay")
-                                img.img-fluid(style="width:200px", src="/img/icons/paypal.png")
+                h4.title
+                    span.icofont.icofont-pay.green-text
+                    = " Subscription Receipt"
+                hr
                 div.col-md-5
-                    img.mt-4.img-fluid(style="height:300px;width:100%", src="/img/icons/pay.png")
+                    img.mt-4.img-fluid(style="width:100%", src="/img/icons/pay.png")
+                div.col-md-7
+                        div.content.ml-md-4.mt-md-4.pl-md-4(style="font-size:22px;  word-break: break-word;")
+                            p Name:  #{auth.name}
+                            p Email:
+                                i.ml-2.blue-text #{auth.email}
+                            hr.m-2
+                            p Invoice Number:
+                            p Subscription Plane: Monthly
+                            p Total Price : #{process.env.Sub_price}$
+                            div.row.mt-4
+                                a(href="/subscribe/pay")
+                                    img.img-fluid(style="width:200px", src="/img/icons/paypal.png")
