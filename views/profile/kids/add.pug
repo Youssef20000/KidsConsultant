@@ -1,0 +1,48 @@
+extends ../../layouts/app
+
+block content
+    div.main.container
+        div.white.pl-md-4.pr-md-4.mt-2
+            div.row
+                h4
+                    span.icofont-ui-add.icofont.mr-2.blue-text
+                    ="Add Kid"
+            if (errs)
+                div#errors.row.black-text.red.p-2.lighten-4()
+                    each err in errs
+                        div.col-md-12.msgs
+                            h6 - #{err.msg}
+            div#errors.row.black-text.red.p-2.lighten-4(style="display:none")
+                div.col-md-12.msgs
+
+            form#addKid(action="/kids/add?_csrf="+csrf, method="post", enctype="multipart/form-data")
+                input(type="hidden", name="_csrf", value=csrf)
+                div.row
+                    div.col-md-3.col-sm-12
+                        div#photoInput
+                            img.imgPrev(src="/img/picture.png")
+                            span.icon.icofont.icofont-camera-alt
+                            input(type="file", name="photo", accept="image/*")
+                        h6.text-center Kid Photo
+                    div.col-md-9
+                        div.row
+                            div.input-field.col-md-5.p-0
+                                input#name( type="text" class="validate", name="name")
+                                label(for="email") Kid Name
+                            div.input-field.col-md-2.col-sm-6.p-0.ml-3
+                                input#age( type="number" class="validate", name="age")
+                                label(for="age") Kid Age
+                            div.input-field.col-md-4.col-sm-6.p-0.ml-3
+                                select#gender.icons(name="gender")
+                                    option(value="" disabled selected) Choose Gender
+                                    option(value="1" data-icon="/img/icons/boy.png") Boy
+                                    option(value="2" data-icon="/img/icons/girl.png") Girl
+                                label Kid Gender
+                    div.col-md-6
+                        button.btn.white-text.light-blue.darken-3(type='submit')
+                            span.icofont.icofont-sign-in.mr-2
+                            ='Login'
+block css
+    link(rel="stylesheet", href="/css/pages/addKid.css")
+block js
+    script(src="/js/pages/addKid.js")

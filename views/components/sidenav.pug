@@ -12,8 +12,8 @@ ul#mobile-demo.sidenav
                     span.white-text.email=auth.email
             else
                 div.container.text-center
-                    a.btn.bg-transparent.white-text(href="/login" style="color:white !important") Login
-                    a.btn.bg-transparent.white-text(href="/register" style="color:white !important") Register
+                    a.btn.bg-transparent.white-text(href="/auth/login" style="color:white !important") Login
+                    a.btn.bg-transparent.white-text(href="/auth/register" style="color:white !important") Register
     li
         div.divider
     li
@@ -38,7 +38,7 @@ ul#mobile-demo.sidenav
                 span.icofont.mr-1.icofont-gears
                 sapn Account Settings
         li
-            a(href="/logout")
+            a(href="/auth/logout")
                 span.icofont.mr-1.icofont-sign-out
                 span="Log Out"
     li

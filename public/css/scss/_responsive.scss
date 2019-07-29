@@ -3,10 +3,14 @@
 }
 @media screen and (max-width: 435px) {
   #quickActions{
+    .link{
+      text-align: center;
+    }
     a{
       margin-bottom: 15px;
       width: 100%;
       font-weight: bolder;
     }
   }
+
 }

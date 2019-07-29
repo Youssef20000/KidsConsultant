@@ -16,7 +16,7 @@ block content
                         img(src="/img/icons/google.png")
                         ='Google Login'
                 div.row
-                    form.col-md-12.m-auto(method='post', action='/login')
+                    form.col-md-12.m-auto(method='post', action='/auth/login')
                         input(type="hidden", name="_csrf", value=csrf)
                         div.input-field.col-md-12.p-0
                             label(for="email", style="font-size:20px;font-weight:bolder")

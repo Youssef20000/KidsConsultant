@@ -40,17 +40,26 @@ class Server {
 
     loadRoutes() {
         // Load Auth Routes
-        this.app.use('/',require(__dirname+'/../routes/Auth/index'));
         // Load Routes In Group
         fs.readdirSync(__dirname + "/../routes").forEach(route => {
             const stat = fs.lstatSync(__dirname + "/../routes/" + route);
-            if (stat.isFile())
+            if (stat.isFile()) {
                 if (route === "index.js") {
                     this.app.use("/", require(`../routes/${route}`));
                 } else {
                     route = route.replace('.js', '');
                     this.app.use(`/${route}/`, require(`../routes/${route}`));
                 }
+            } else {
+                fs.readdirSync(__dirname + "/../routes/"+route).forEach(groute=>{
+                    if (groute === "index.js") {
+                        this.app.use(`/${route}`, require(`../routes/${route}/${groute}`));
+                    } else {
+                        groute = groute.replace('.js', '');
+                        this.app.use(`/${route}/${groute}`, require(`../routes/${route}/${groute}`))
+                    }
+                })
+            }
         });
     }
 
@@ -63,6 +72,7 @@ class Server {
 // error handler
         this.app.use(function (err, req, res, next) {
             // set locals, only providing error in development
+            console.log(req.body)
             res.locals.message = err.message;
             res.locals.error = req.app.get('env') === 'development' ? err : {};
             // render the error page

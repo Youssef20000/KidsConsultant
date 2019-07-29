@@ -5,11 +5,12 @@ html
         meta(name="viewport", content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0")
         meta(http-equiv="X-UA-Compatible", content="ie=edge")
         link(rel='icon', href='/favicon.ico')
-        title= title
+        title KidsConsultant #{title}
         link(rel="stylesheet", href="/dist/css/bootstrap.min.css")
         link(rel="stylesheet", href="/dist/css/materialize.min.css")
         link(rel='stylesheet', href='/css/icofont.min.css')
         link(rel='stylesheet', href='/css/style.css')
+        block css
     body
         nav.nav.white.pink-text
             div.nav-wrapper.container
@@ -18,9 +19,9 @@ html
                     spam.hide-on-med-and-down Consultant
                 ul#auth-nav.right.hide-on-med-and-down
                     if (!isAuthenticated)
-                        a.waves-effect.waves-light(href="/login") Login
+                        a.waves-effect.waves-light(href="/auth/login") Login
                             span.icofont.icofont-sign-in.ml-2
-                        a.odd.waves-effect.waves-light(href="/signup") Register
+                        a.odd.waves-effect.waves-light(href="/auth/signup") Register
                             span.icofont.ml-2.icofont-ui-add
                     else
                         a.dropdown-trigger.none(href='#', data-target='dropdown1')=auth.name
@@ -31,7 +32,7 @@ html
                                 span.icofont.icofont-ui-user
                                 =' Profile'
                         li
-                            a.text-center(href="/logout")
+                            a.text-center(href="/auth/logout")
                                 span.icofont.icofont-sign-out
                                 =' Log Out'
                 ul#nav-mobile.right.hide-on-med-and-down

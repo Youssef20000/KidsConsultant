@@ -16,7 +16,7 @@ block content
                         img(src="/img/icons/google.png")
                         ='Sign Up With Google'
                 div.row
-                    form.col-md-12.m-auto(method='post', action='/signup')
+                    form.col-md-12.m-auto(method='post', action='/auth/signup')
                         input(type="hidden", name="_csrf", value=csrf)
                         div.input-field.col-md-12.p-0
                             input(type='text', required, class="validate", name="name", placeholder="Enter Your FullName", id="name")

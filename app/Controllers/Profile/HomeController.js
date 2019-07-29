@@ -11,28 +11,23 @@ class HomeController {
             HomeController.getClientArea(req,res,next);
         }
     }
-    static getClientArea(req,res,next){
-        let data = {};
-        Subscriptions.findOne({"user":req.user._id}).then(sub=>{
-            data.sub = sub;
-            Kids.find({"parent_id":req.user._id}).then(kids =>{
-                res.render('profile/home',{sub:data.sub,kids:kids});
-            });
-        }).catch(err => {console.log(err)});
-    }
+
+
     static getPayments(req,res,next){
         Payments.find({"user":req.user._id}).then(data =>{
-            res.render('profile/payments',{payments:data});
+            res.render('profile/payments',{title:"Payments History",payments:data});
         })
     }
+
     static getPaymentReceipt(req,res,next){
         Payments.findOne({"invoiceNum":req.params.id}).then(invoice=>{
-            res.render('success',{invoice:invoice});
+            res.render('success',{title:"Invoice",invoice:invoice});
         })
     }
+
     static getInvoicePDF(req,res,next){
         Payments.findOne({"invoiceNum":req.params.id,"user":req.user._id}).then(invoice=>{
-          console.log(invoice)
+          //console.log(invoice)
             if (!invoice)
               next(createError(400));
             const invoiceDoc = {
@@ -65,7 +60,15 @@ class HomeController {
         });
     }
 
-
+    static getClientArea(req,res,next){
+        let data = {};
+        Subscriptions.findOne({"user":req.user._id}).then(sub=>{
+            data.sub = sub;
+            Kids.find({"parent_id":req.user._id}).then(kids =>{
+                res.render('profile/home',{title:"Profile",sub:data.sub,kids:kids});
+            });
+        }).catch(err => {console.log(err)});
+    }
     static generateCustomerInformation(doc, invoice) {
         const shipping = invoice.shipping;
         doc

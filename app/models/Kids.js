@@ -8,6 +8,7 @@ let KidSchema = new Schema({
     name:{type: String,required: true},
     age: {type:Number,required: true},
     gender:{type:String},
+    photo:{type:String},
     files:[]
 });
 

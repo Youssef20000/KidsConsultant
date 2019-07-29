@@ -1,12 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var csrf = require("csurf");
-var csrfProtection = csrf();
-router.use(csrfProtection);
 const { check } = require('express-validator');
 const RegisterController = require(`../../app/Controllers/Auth/RegisterController`);
 const LoginController = require("../../app/Controllers/Auth/LoginController")
 const Helpers = require("../../app/Helpers");
+let csrf = require('csurf');
+router.use(csrf({cookies:false})); // Security, has to be after cookie and session.
 
 router.get("/login",  Helpers.notLogged,LoginController.view);
 router.get("/signup", Helpers.notLogged, RegisterController.view);

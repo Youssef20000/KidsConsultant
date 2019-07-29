@@ -9,7 +9,7 @@ class SubscribeController {
                 return res.render('subscribe');
             }
             if (data.leftDays() == 0) {
-                return res.render('subscribe');
+                return res.render('subscribe',{title:"Subscribe Now"});
             }
             return res.redirect("/profile/payments");
         })
@@ -98,7 +98,7 @@ class SubscribeController {
                 response.error = false;
                 response.message = "Payment Successful.";
                 Payments.findOne({"ppTransaction":paymentId}).then(data =>{
-                    return res.render("success",{invoice:data})
+                    SubscribeController.successView(res,data);
                 })
               } else {
                 let uID = Math.floor(Math.random() * Math.floor(9999999));
@@ -119,14 +119,16 @@ class SubscribeController {
                         ppTransaction:paymentId,
                         invoiceNum: uID
                     }).save().then(data=>{
-                        res.render("success",{invoice:data})
+                        SubscribeController.successView(res,data);
                     });
                 });
             }
         });
     }
 
-    static successView(req,res,next){}
+    static successView(res,data) {
+        return res.render('success',{title:"Payment Success",invoice:data});
+    }
     static cancel(){}
 }
 
